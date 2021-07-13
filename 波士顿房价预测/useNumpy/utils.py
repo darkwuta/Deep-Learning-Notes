@@ -37,6 +37,6 @@ def load_data(datafile):
     # maximums, minimums, avgs都是14列的行向量
     for i in range(feature_num):
         #print(maximums[i], minimums[i], avgs[i])
-        data[:, i] = (data[:, i] - minimums[i]) / (maximums[i] - minimums[i])
+        data[:, i] = (data[:, i] - avgs[i]) / (maximums[i] - minimums[i])
     return training_data, test_data
 

@@ -8,7 +8,7 @@ from Network import Network
 
 
 def main():
-    datafile = './DataBase/housing.data'
+    datafile = '../DataBase/housing.data'
     train_data, test_data = utils.load_data(datafile)
     x = train_data[:, :-1]  # :-1取消最后一个
     y = train_data[:, -1:]  # -1:取最后一个
@@ -19,7 +19,7 @@ def main():
     #Y = WX + b
     net = Network(13)
 
-    losses = net.train(train_data,test_data, num_epochs=1, batch_size=10, eta=0.1)
+    losses = net.train(train_data,test_data, num_epochs=100, batch_size=10, eta=0.1)
 
     # 画出损失函数的变化趋势
     plot_x = np.arange(len(losses))

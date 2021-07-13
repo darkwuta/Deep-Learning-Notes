@@ -48,7 +48,7 @@ class Network(object):
                 gradient_w, gradient_b = self.gradient(x, y)
                 self.update(gradient_w, gradient_b, eta)
                 losses.append(loss)
-                result = self.test(test_data,bias = 0.5)
+                result = self.test(test_data,bias = 0.1)
                 print('Epoch {:3d} / iter {:3d}, loss = {:.4f}, 正确率 = {:.4f}'.
                                  format(epoch_id, iter_id, loss, result))
         return losses
