@@ -7,7 +7,7 @@ import numpy as np
 # MnistDataset的作用和上面load_data()函数的作用相同，均是构建一个迭代器
 class MnistDataset(paddle.io.Dataset):
     def __init__(self, mode):
-        datafile = '../DataBase/mnist.json.gz'
+        datafile = 'D:/github/myProjects/Deep-Learning-Notes/手写数字识别/DataBase/mnist.json.gz'
         data = json.load(gzip.open(datafile))
         # 读取到的数据区分训练集，验证集，测试集
         train_set, val_set, eval_set = data

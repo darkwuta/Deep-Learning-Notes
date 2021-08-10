@@ -11,7 +11,7 @@ import numpy as np
 
 
 def load_data(mode='train'):
-    datafile = '../DataBase/mnist.json.gz'
+    datafile = 'D:/github/myProjects/Deep-Learning-Notes/手写数字识别/DataBase/mnist.json.gz'
     print('loading mnist dataset from {} ......'.format(datafile))
     # 加载json数据文件
     data = json.load(gzip.open(datafile))
@@ -19,6 +19,10 @@ def load_data(mode='train'):
    
     # 读取到的数据区分训练集，验证集，测试集
     train_set, val_set, eval_set = data
+
+    IMG_ROWS = 28
+    IMG_COLS = 28
+
     if mode=='train':
         # 获得训练数据集
         imgs, labels = train_set[0], train_set[1]
@@ -49,25 +53,25 @@ def load_data(mode='train'):
     # 定义数据生成器
     def data_generator():
         if mode == 'train':
-            # 训练模式下打乱数据
             random.shuffle(index_list)
         imgs_list = []
         labels_list = []
         for i in index_list:
-            # 将数据处理成希望的类型
             img = np.array(imgs[i]).astype('float32')
             label = np.array(labels[i]).astype('float32')
+            # 在使用卷积神经网络结构时，uncomment 下面两行代码
+            img = np.reshape(imgs[i], [1, IMG_ROWS, IMG_COLS]).astype('float32')
+            label = np.reshape(labels[i], [1]).astype('float32')
             imgs_list.append(img) 
             labels_list.append(label)
             if len(imgs_list) == BATCHSIZE:
-                # 获得一个batchsize的数据，并返回
                 yield np.array(imgs_list), np.array(labels_list)
-                # 清空数据读取列表
                 imgs_list = []
                 labels_list = []
-    
+
         # 如果剩余数据的数目小于BATCHSIZE，
         # 则剩余数据一起构成一个大小为len(imgs_list)的mini-batch
         if len(imgs_list) > 0:
             yield np.array(imgs_list), np.array(labels_list)
+
     return data_generator

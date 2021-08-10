@@ -11,21 +11,26 @@ import MnistDataset as md
 train_dataset = md.MnistDataset(mode='train')
 # 使用paddle.io.DataLoader 定义DataLoader对象用于加载Python生成器产生的数据，
 # DataLoader 返回的是一个批次数据迭代器，并且是异步的；
-data_loader = paddle.io.DataLoader(train_dataset, batch_size=100, shuffle=True)
+# data_loader = paddle.io.DataLoader(train_dataset, batch_size=100, shuffle=True)
 
 # 训练配置，并启动训练过程
 def train(model):
     model = MNIST.MNIST()
     model.train()
+    train_loader = dp.load_data('train')
     opt = paddle.optimizer.SGD(learning_rate=0.001, parameters=model.parameters())
-    EPOCH_NUM = 3
+    EPOCH_NUM = 10
+    # MNIST图像高和宽
+    IMG_ROWS, IMG_COLS = 28, 28
+
     for epoch_id in range(EPOCH_NUM):
-        for batch_id, data in enumerate(data_loader()):
+        for batch_id, data in enumerate(train_loader()):
             images, labels = data
             images = paddle.to_tensor(images)
-            labels = paddle.to_tensor(labels).astype('float32')
-            
-            #前向计算的过程  
+            images = paddle.reshape(images, [images.shape[0],1,IMG_ROWS,IMG_COLS])
+            labels = paddle.to_tensor(labels)
+
+            #前向计算的过程
             predicts = model(images)
 
             #计算损失，取一个批次样本损失的平均值
