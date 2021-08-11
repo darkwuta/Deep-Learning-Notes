@@ -61,7 +61,7 @@ def load_data(mode='train'):
             label = np.array(labels[i]).astype('float32')
             # 在使用卷积神经网络结构时，uncomment 下面两行代码
             img = np.reshape(imgs[i], [1, IMG_ROWS, IMG_COLS]).astype('float32')
-            label = np.reshape(labels[i], [1]).astype('float32')
+            label = np.reshape(labels[i], [1]).astype('int64')
             imgs_list.append(img) 
             labels_list.append(label)
             if len(imgs_list) == BATCHSIZE:

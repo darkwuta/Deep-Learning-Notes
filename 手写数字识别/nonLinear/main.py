@@ -27,19 +27,19 @@ def train(model):
         for batch_id, data in enumerate(train_loader()):
             images, labels = data
             images = paddle.to_tensor(images)
-            images = paddle.reshape(images, [images.shape[0],1,IMG_ROWS,IMG_COLS])
+            #images = paddle.reshape(images, [images.shape[0],1,IMG_ROWS,IMG_COLS])
             labels = paddle.to_tensor(labels)
 
             #前向计算的过程
             predicts = model(images)
 
             #计算损失，取一个批次样本损失的平均值
-            loss = F.square_error_cost(predicts, labels)
+            loss = F.cross_entropy(predicts, labels)
             avg_loss = paddle.mean(loss)       
             
             #每训练了200批次的数据，打印下当前Loss的情况
             if batch_id % 200 == 0:
-                print("epoch: {}, batch: {}, loss is: {}".format(epoch_id, batch_id, avg_loss.numpy()))
+                print("epoch: {}, batch: {}, loss is: {}".format(epoch_id, batch_id, avg_loss.numpy()*100))
             
             #后向传播，更新参数的过程
             avg_loss.backward()
